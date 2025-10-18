@@ -7,6 +7,7 @@ use App\Http\Controllers\BrandsController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SubCategoriesController;
+use App\Http\Controllers\UnitsController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -72,6 +73,15 @@ Route::prefix('backend')->name('backend.')->middleware('auth')->group(function()
     Route::put('/brands/{brands}', [BrandsController::class, 'update'])->name('brands.update');
     Route::delete('/brands/{brands}', [BrandsController::class, 'destroy'])->name('brands.destroy');
 
+
+    // Units Routs
+    Route::get('/units', [UnitsController::class, 'index'])->name('units.index');
+    Route::get('/units/create', [UnitsController::class, 'create'])->name('units.create');
+    Route::post('/units', [UnitsController::class, 'store'])->name('units.store');
+    Route::get('/units/{units}', [UnitsController::class, 'show'])->name('units.show');
+    Route::get('/units/{units}/edit', [UnitsController::class, 'edit'])->name('units.edit');
+    Route::put('/units/{units}', [UnitsController::class, 'update'])->name('units.update');
+    Route::delete('/units/{units}', [UnitsController::class, 'destroy'])->name('units.destroy');
 });
 
 
