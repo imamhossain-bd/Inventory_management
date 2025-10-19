@@ -187,7 +187,7 @@
                     <option value="">Select Variant</option>
                     @foreach($variants as $variant)
                         <option value="{{ $variant->id }}" {{ old('variants_id') == $variant->id ? 'selected' : '' }}>
-                            {{ $variant->value }}
+                            {{ implode(', ', $variant->value ?? []) }}
                         </option>
                     @endforeach
                 </select>

@@ -113,9 +113,17 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Product $product)
+    public function edit($id)
     {
-        //
+        $product = Product::findOrFail($id);
+        $categories = Categories::all();
+        $brands = Brands::all();
+        $units = Units::all();
+        $warranties = Warranty::all();
+        $variants = Variants::all();
+
+
+        return view('backend.products.edit', compact('product', 'categories', 'brands', 'units',  'warranties', 'variants'));
     }
 
     /**

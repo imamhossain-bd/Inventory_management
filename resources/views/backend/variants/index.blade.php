@@ -46,7 +46,7 @@
                         <td class="px-4 py-3"><input type="checkbox"></td>
                         <td class="px-4 py-3 font-medium text-gray-800">{{ $variant->name }}</td>
                         <td class="px-4 py-3 text-gray-600">
-                            {{ implode(', ', $variant->values->pluck('name')->toArray()) }}
+                            {{ implode(', ', $variant->value ?? []) }}
                         </td>
                         <td class="px-4 py-3 text-gray-600">{{ $variant->created_at->format('d M Y') }}</td>
                         <td class="px-4 py-3">
@@ -57,11 +57,11 @@
                             @endif
                         </td>
                         <td class="px-4 py-3 flex justify-center space-x-2">
-                            <a href="{{ route('backend.variant_attributes.edit', $variant->id) }}"
+                            <a href="{{ route('backend.variants.edit', $variant->id) }}"
                                 class="text-blue-500 hover:text-blue-700">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <form action="{{ route('backend.variant_attributes.destroy', $variant->id) }}" method="POST"
+                            <form action="{{ route('backend.variants.destroy', $variant->id) }}" method="POST"
                                 onsubmit="return confirm('Are you sure you want to delete this variant?');">
                                 @csrf
                                 @method('DELETE')

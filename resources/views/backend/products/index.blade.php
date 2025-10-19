@@ -28,11 +28,11 @@
                     <td class="px-6 py-4 whitespace-nowrap">{{ $product->id }}</td>
                     <td class="px-6 py-4 whitespace-nowrap">{{ $product->name }}</td>
                     <td class="px-6 py-4 whitespace-nowrap">{{ $product->sku }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap">${{ number_format($product->price, 2) }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap">{{ $product->quantity }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">${{ number_format($product->selling_price, 2) }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">{{ $product->stock }}</td>
                     <td class="px-6 py-4 whitespace-nowrap">
-                        <a href="#" class="text-indigo-600 hover:text-indigo-900 mr-4">Edit</a>
-                        <a href="#" class="text-red-600 hover:text-red-900">Delete</a>
+                        <a href="{{ route('backend.products.edit', $product->id) }}" class="text-indigo-600 hover:text-indigo-900 mr-4">Edit</a>
+                        <a href="{{ route('backend.products.destroy', $product->id) }}" class="text-red-600 hover:text-red-900">Delete</a>
                     </td>
                 </tr>
                 @endforeach

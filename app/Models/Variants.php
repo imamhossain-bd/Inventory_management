@@ -15,6 +15,10 @@ class Variants extends Model
         'status',
     ];
 
+    protected $casts = [
+        'value' => 'array',
+    ];
+
     public function product()
     {
         return $this->belongsTo(Product::class, 'product_id');

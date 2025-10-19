@@ -11,7 +11,7 @@
             <p class="text-gray-500 text-sm">Create a new variant and its values</p>
         </div>
         <a href="{{ route('backend.variants.index') }}"
-            class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-md flex items-center space-x-2">
+           class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-md flex items-center space-x-2">
             <i class="fas fa-arrow-left"></i> <span>Back to List</span>
         </a>
     </div>
@@ -20,6 +20,24 @@
     <form action="{{ route('backend.variants.store') }}" method="POST">
         @csrf
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Product Selection -->
+            <div>
+                <label class="block text-gray-700 font-medium mb-2">Select Product <span class="text-red-500">*</span></label>
+                <select name="product_id" id="product_id"
+                    class="w-full border border-gray-300 rounded-lg px-4 py-2.5 bg-gray-50 text-gray-700
+                        focus:bg-white focus:border-orange-400 focus:ring-2 focus:ring-orange-200 focus:outline-none shadow-sm transition">
+                    <option value="">-- Choose a Product --</option>
+                    @foreach($products as $product)
+                        <option value="{{ $product->id }}" {{ old('product_id') == $product->id ? 'selected' : '' }}>
+                            {{ $product->name }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('product_id')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
             <!-- Variant Name -->
             <div>
                 <label class="block text-gray-700 font-medium mb-2">Variant Name <span class="text-red-500">*</span></label>

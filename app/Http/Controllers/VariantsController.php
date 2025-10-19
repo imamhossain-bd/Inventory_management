@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\Variants;
 use Illuminate\Http\Request;
 
@@ -21,7 +22,8 @@ class VariantsController extends Controller
      */
     public function create()
     {
-        return view('backend.variants.create');
+        $products = Product::all();
+        return view('backend.variants.create', compact('products'));
     }
 
     /**
@@ -37,14 +39,12 @@ class VariantsController extends Controller
             'status' => 'boolean',
         ]);
 
-        foreach ($request->values as $value) {
             Variants::create([
                 'product_id' => $request->product_id,
                 'name' => $request->name,
-                'value' => $value,
+                'value' => $request->values,
                 'status' => $request->status ?? 1,
             ]);
-        }
 
         return redirect()->route('backend.variants.index')->with('success', 'Variant(s) created successfully.');
     }
@@ -64,7 +64,8 @@ class VariantsController extends Controller
     public function edit(Variants $variants)
     {
         $variants = Variants::findOrFail($variants->id);
-        return view('backend.variants.edit', compact('variants'));
+        $products = Product::all();
+        return view('backend.variants.edit', compact('variants', 'products'));
     }
 
     /**
@@ -75,14 +76,15 @@ class VariantsController extends Controller
         $request->validate([
             'product_id' => 'nullable|exists:products,id',
             'name' => 'required|string|max:255',
-            'value' => 'required|string|max:255',
+            'values' => 'required|array|min:1',
+            'values.*' => 'string|max:255',
             'status' => 'boolean',
         ]);
 
         $variant->update([
             'product_id' => $request->product_id,
             'name' => $request->name,
-            'value' => $request->value,
+            'value' => $request->values,
             'status' => $request->status ?? 1,
         ]);
 
