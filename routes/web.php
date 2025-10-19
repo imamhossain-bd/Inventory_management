@@ -8,6 +8,7 @@ use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SubCategoriesController;
 use App\Http\Controllers\UnitsController;
+use App\Http\Controllers\VariantsController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -82,6 +83,10 @@ Route::prefix('backend')->name('backend.')->middleware('auth')->group(function()
     Route::get('/units/{units}/edit', [UnitsController::class, 'edit'])->name('units.edit');
     Route::put('/units/{units}', [UnitsController::class, 'update'])->name('units.update');
     Route::delete('/units/{units}', [UnitsController::class, 'destroy'])->name('units.destroy');
+
+
+    // variant routes
+    Route::resource('variants', VariantsController::class);
 });
 
 

@@ -114,11 +114,11 @@
                 <label class="block text-gray-700 font-medium mb-2">Category <span class="text-red-500">*</span></label>
                 <select name="category_id" class="w-full border border-gray-300 rounded-lg p-2">
                     <option value="">Select Category</option>
-                    {{-- @foreach($categories as $category)
+                    @foreach($categories as $category)
                         <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
-                            {{ $category->name }}
+                            {{ $category->cat_name }}
                         </option>
-                    @endforeach --}}
+                    @endforeach
                 </select>
                 @error('category_id') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
             </div>
@@ -128,11 +128,11 @@
                 <label class="block text-gray-700 font-medium mb-2">Brand</label>
                 <select name="brand_id" class="w-full border border-gray-300 rounded-lg p-2">
                     <option value="">Select Brand</option>
-                    {{-- @foreach($brands as $brand)
+                    @foreach($brands as $brand)
                         <option value="{{ $brand->id }}" {{ old('brand_id') == $brand->id ? 'selected' : '' }}>
                             {{ $brand->name }}
                         </option>
-                    @endforeach --}}
+                    @endforeach
                 </select>
                 @error('brand_id') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
             </div>
@@ -158,25 +158,54 @@
                 <label class="block text-gray-700 font-medium mb-2">Unit <span class="text-red-500">*</span></label>
                 <select name="unit_id" class="w-full border border-gray-300 rounded-lg p-2">
                     <option value="">Select Unit</option>
-                    {{-- @foreach($units as $unit)
+                    @foreach($units as $unit)
                         <option value="{{ $unit->id }}" {{ old('unit_id') == $unit->id ? 'selected' : '' }}>
                             {{ $unit->name }}
                         </option>
-                    @endforeach --}}
+                    @endforeach
                 </select>
                 @error('unit_id') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
             </div>
         </div>
 
-        {{-- Status --}}
-        <div>
-            <label class="block text-gray-700 font-medium mb-2">Status <span class="text-red-500">*</span></label>
-            <select name="status" class="w-full border border-gray-300 rounded-lg p-2">
-                <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active</option>
-                <option value="inactive" {{ old('status') == 'inactive' ? 'selected' : '' }}>Inactive</option>
-            </select>
-            @error('status') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
+        {{-- Status & variants --}}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {{-- Status --}}
+            <div>
+                <label class="block text-gray-700 font-medium mb-2">Status <span class="text-red-500">*</span></label>
+                <select name="status" class="w-full border border-gray-300 rounded-lg p-2">
+                    <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active</option>
+                    <option value="inactive" {{ old('status') == 'inactive' ? 'selected' : '' }}>Inactive</option>
+                </select>
+                @error('status') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
+            </div>
+
+            {{-- Variants --}}
+            <div>
+                <label class="block text-gray-700 font-medium mb-2">Variants <span class="text-red-500">*</span></label>
+                <select name="variants_id" class="w-full border border-gray-300 rounded-lg p-2">
+                    <option value="">Select Variant</option>
+                    @foreach($variants as $variant)
+                        <option value="{{ $variant->id }}" {{ old('variants_id') == $variant->id ? 'selected' : '' }}>
+                            {{ $variant->value }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('variants_id') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
+            </div>
         </div>
+
+        {{-- Warranty --}}
+        {{-- <div>
+        <select name="warranty_id" required>
+            <option value="">Select Warranty</option>
+            @foreach ($warranties as $warranty)
+                <option value="{{ $warranty->id }}">{{ $warranty->name }}</option>
+            @endforeach
+        </select>
+        @error('warranty_id') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
+        </div> --}}
+
 
         {{-- Thumbnail & Images --}}
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">

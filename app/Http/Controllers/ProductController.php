@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Brands;
+use App\Models\Categories;
 use App\Models\Product;
+use App\Models\Units;
+use App\Models\Variants;
+use App\Models\Warranty;
 use Illuminate\Http\Request;
 use Stringable;
 use Illuminate\Support\Str;
@@ -21,7 +26,13 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('backend.products.create');
+        $categories = Categories::all();
+        $brands = Brands::all();
+        $units = Units::all();
+        $variants = Variants::all();
+        $warranties = Warranty::all();
+
+        return view('backend.products.create', compact('categories', 'brands', 'units', 'variants'));
     }
 
     /**
@@ -44,7 +55,8 @@ class ProductController extends Controller
             'images' => 'nullable|array',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'status' => 'required|in:active,inactive',
-            'warehouse_id' => 'required|exists:warehouses,id',
+            'warranty_id' => 'nullable|exists:warranties,id',
+            // 'warehouse_id' => 'nullable|exists:warehouses,id',
             'category_id' => 'required|exists:categories,id',
             'brand_id' => 'nullable|exists:brands,id',
             'supplier_id' => 'nullable|exists:suppliers,id',
@@ -63,7 +75,8 @@ class ProductController extends Controller
             'stock' => $request->stock,
             'stock_alert' => $request->stock_alert ?? 10,
             'status' => $request->status,
-            'warehouse_id' => $request->warehouse_id,
+            'warranty_id' => $request->warranty_id,
+            // 'warehouse_id' => $request->warehouse_id,
             'category_id' => $request->category_id,
             'brand_id' => $request->brand_id,
             'supplier_id' => $request->supplier_id,
@@ -125,7 +138,8 @@ class ProductController extends Controller
             'images' => 'nullable|array',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'status' => 'required|in:active,inactive',
-            'warehouse_id' => 'required|exists:warehouses,id',
+            'warranty_id' => 'nullable|exists:warranties,id',
+            // 'warehouse_id' => 'nullable|exists:warehouses,id',
             'category_id' => 'required|exists:categories,id',
             'brand_id' => 'nullable|exists:brands,id',
             'supplier_id' => 'nullable|exists:suppliers,id',
@@ -144,7 +158,8 @@ class ProductController extends Controller
             'stock' => $request->stock,
             'stock_alert' => $request->stock_alert ?? 10,
             'status' => $request->status,
-            'warehouse_id' => $request->warehouse_id,
+            'warranty_id' => $request->warranty_id,
+            // 'warehouse_id' => $request->warehouse_id,
             'category_id' => $request->category_id,
             'brand_id' => $request->brand_id,
             'supplier_id' => $request->supplier_id,

@@ -4,14 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Variants extends Model
+class Warranty extends Model
 {
-    protected $table = 'variants';
+    protected $table = 'warranties';
 
     protected $fillable = [
-        'name',
-        'value',
         'product_id',
+        'type',
+        'duration',
         'status',
     ];
 

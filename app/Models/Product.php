@@ -8,17 +8,23 @@ class Product extends Model
 {
     protected $fillable = [
         'name', 'slug', 'sku', 'description', 'barcode', 'purchase_price', 'selling_price', 'discount_price', 'stock', 'stock_alert',
-        'thumbnail', 'images', 'status', 'warehouse_id', 'category_id', 'brand_id', 'supplier_id', 'unit_id',
+        'thumbnail', 'images', 'status', 'warranty_id', 'category_id', 'brand_id', 'supplier_id', 'unit_id',
     ];
 
     protected $casts = [
         'images' => 'array',
     ];
 
-    public function warehouse()
+    public function variants()
     {
-        return $this->belongsTo(Warehouse::class);
+        return $this->hasMany(Variants::class);
     }
+
+    public function warranty()
+    {
+        return $this->belongsTo(Warranty::class, 'warranty_id');
+    }
+
     public function category()
     {
         return $this->belongsTo(Categories::class);

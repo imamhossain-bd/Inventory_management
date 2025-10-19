@@ -91,7 +91,7 @@
                 <span x-show="open" class="ml-2">Units</span>
             </a>
 
-            <a href="#" class="flex items-center px-3 py-2 rounded-md hover:bg-orange-50 hover:text-orange-600 {{ request()->routeIs('backend.products.outofstock') ? 'bg-orange-100 text-orange-600 font-semibold' : '' }}">
+            <a href="{{ route('backend.variants.index') }}" class="flex items-center px-3 py-2 rounded-md hover:bg-orange-50 hover:text-orange-600 {{ request()->routeIs('backend.variants.index') ? 'bg-orange-100 text-orange-600 font-semibold' : '' }}">
                 <i class="fas fa-palette w-6 text-center"></i>
                 <span x-show="open" class="ml-2">Variant Attributes</span>
             </a>

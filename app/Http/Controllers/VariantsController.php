@@ -12,7 +12,8 @@ class VariantsController extends Controller
      */
     public function index()
     {
-        //
+        $variants = Variants::latest()->paginate(10);
+        return view('backend.variants.index', compact('variants'));
     }
 
     /**
@@ -20,7 +21,7 @@ class VariantsController extends Controller
      */
     public function create()
     {
-        //
+        return view('backend.variants.create');
     }
 
     /**
@@ -28,7 +29,24 @@ class VariantsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'product_id' => 'nullable|exists:products,id',
+            'name' => 'required|string|max:255',
+            'values' => 'required|array|min:1',
+            'values.*' => 'string|max:255',
+            'status' => 'boolean',
+        ]);
+
+        foreach ($request->values as $value) {
+            Variants::create([
+                'product_id' => $request->product_id,
+                'name' => $request->name,
+                'value' => $value,
+                'status' => $request->status ?? 1,
+            ]);
+        }
+
+        return redirect()->route('backend.variants.index')->with('success', 'Variant(s) created successfully.');
     }
 
     /**
@@ -36,7 +54,8 @@ class VariantsController extends Controller
      */
     public function show(Variants $variants)
     {
-        //
+        $variants = Variants::findOrFail($variants->id);
+        return view('backend.variants.show', compact('variants'));
     }
 
     /**
@@ -44,15 +63,30 @@ class VariantsController extends Controller
      */
     public function edit(Variants $variants)
     {
-        //
+        $variants = Variants::findOrFail($variants->id);
+        return view('backend.variants.edit', compact('variants'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Variants $variants)
+     public function update(Request $request, Variants $variant)
     {
-        //
+        $request->validate([
+            'product_id' => 'nullable|exists:products,id',
+            'name' => 'required|string|max:255',
+            'value' => 'required|string|max:255',
+            'status' => 'boolean',
+        ]);
+
+        $variant->update([
+            'product_id' => $request->product_id,
+            'name' => $request->name,
+            'value' => $request->value,
+            'status' => $request->status ?? 1,
+        ]);
+
+        return redirect()->route('backend.variants.index')->with('success', 'Variant updated successfully.');
     }
 
     /**
@@ -60,6 +94,7 @@ class VariantsController extends Controller
      */
     public function destroy(Variants $variants)
     {
-        //
+        $variants->delete();
+        return redirect()->route('backend.variants.index')->with('success', 'Variant deleted successfully.');
     }
 }
