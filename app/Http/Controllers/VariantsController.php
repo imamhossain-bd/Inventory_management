@@ -61,9 +61,9 @@ class VariantsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Variants $variants)
+    public function edit(Variants $variant)
     {
-        $variants = Variants::findOrFail($variants->id);
+        $variants = Variants::findOrFail($variant->id);
         $products = Product::all();
         return view('backend.variants.edit', compact('variants', 'products'));
     }

@@ -87,6 +87,7 @@ Route::prefix('backend')->name('backend.')->middleware('auth')->group(function()
 
     // variant routes
     Route::resource('variants', VariantsController::class);
+
 });
 
 
