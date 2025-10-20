@@ -9,9 +9,11 @@ class Warranty extends Model
     protected $table = 'warranties';
 
     protected $fillable = [
-        'product_id',
-        'type',
+        'name',
+        'slug',
         'duration',
+        'duration_type',
+        'description',
         'status',
     ];
 

@@ -9,6 +9,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SubCategoriesController;
 use App\Http\Controllers\UnitsController;
 use App\Http\Controllers\VariantsController;
+use App\Http\Controllers\WarrantyController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -87,6 +88,7 @@ Route::prefix('backend')->name('backend.')->middleware('auth')->group(function()
 
     // variant routes
     Route::resource('variants', VariantsController::class);
+    Route::resource('warranties', WarrantyController::class);
 
 });
 

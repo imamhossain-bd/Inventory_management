@@ -96,7 +96,7 @@
                 <span x-show="open" class="ml-2">Variant Attributes</span>
             </a>
 
-            <a href="#" class="flex items-center px-3 py-2 rounded-md hover:bg-orange-50 hover:text-orange-600 {{ request()->routeIs('backend.warranties.index') ? 'bg-orange-100 text-orange-600 font-semibold' : '' }}">
+            <a href="{{ route('backend.warranties.index') }}" class="flex items-center px-3 py-2 rounded-md hover:bg-orange-50 hover:text-orange-600 {{ request()->routeIs('backend.warranties.index') ? 'bg-orange-100 text-orange-600 font-semibold' : '' }}">
                 <i class="fas fa-certificate w-6 text-center"></i>
                 <span x-show="open" class="ml-2">Warranties</span>
             </a>
