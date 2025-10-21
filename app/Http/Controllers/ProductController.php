@@ -9,7 +9,6 @@ use App\Models\Units;
 use App\Models\Variants;
 use App\Models\Warranty;
 use Illuminate\Http\Request;
-use Stringable;
 use Illuminate\Support\Str;
 
 class ProductController extends Controller
@@ -32,7 +31,7 @@ class ProductController extends Controller
         $variants = Variants::all();
         $warranties = Warranty::all();
 
-        return view('backend.products.create', compact('categories', 'brands', 'units', 'variants'));
+        return view('backend.products.create', compact('categories', 'brands', 'units', 'variants', 'warranties'));
     }
 
     /**

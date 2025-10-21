@@ -28,11 +28,27 @@
             </div>
 
             {{-- SKU --}}
-            <div>
-                <label class="block text-gray-700 font-medium mb-2">SKU <span class="text-red-500">*</span></label>
-                <input type="text" name="sku" value="{{ old('sku') }}"
-                    class="w-full border border-gray-300 rounded-lg p-2 focus:ring focus:ring-blue-200 focus:border-blue-400">
-                @error('sku') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
+            <div class="space-y-2">
+                <label class="block text-gray-700 font-medium">
+                    SKU <span class="text-red-500">*</span>
+                </label>
+
+                <div class="flex">
+                    {{-- SKU Input --}}
+                    <input type="text" id="sku" name="sku" value="{{ old('sku') }}" placeholder="Enter or generate SKU"  class="flex-1 border border-gray-300 rounded-l-lg px-4 py-2.5
+                    text-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+
+                    {{-- Generate Button --}}
+                    <button  type="button"  id="generate-sku" class="bg-blue-600 text-white px-5 rounded-r-lg text-sm font-medium
+                    hover:bg-blue-700 focus:ring-2 focus:ring-blue-400 transition">
+                        Generate
+                    </button>
+                </div>
+
+                {{-- Validation Error --}}
+                @error('sku')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
             </div>
 
             {{-- Barcode --}}
@@ -95,18 +111,18 @@
 
         {{-- Dropdown Fields --}}
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {{-- Warehouse --}}
+            {{-- Warranties --}}
             <div>
-                <label class="block text-gray-700 font-medium mb-2">Warehouse <span class="text-red-500">*</span></label>
-                <select name="warehouse_id" class="w-full border border-gray-300 rounded-lg p-2">
-                    <option value="">Select Warehouse</option>
-                    {{-- @foreach($warehouses as $warehouse)
-                        <option value="{{ $warehouse->id }}" {{ old('warehouse_id') == $warehouse->id ? 'selected' : '' }}>
-                            {{ $warehouse->name }}
+                <label class="block text-gray-700 font-medium mb-2">Warranty</label>
+                <select name="warranty_id" class="w-full border border-gray-300 rounded-lg p-2">
+                    <option value="">Select Warranty</option>
+                    @foreach($warranties as $warranty)
+                        <option value="{{ $warranty->id }}" {{ old('warranty_id') == $warranty->id ? 'selected' : '' }}>
+                            {{ $warranty->name }}
                         </option>
-                    @endforeach --}}
+                    @endforeach
                 </select>
-                @error('warehouse_id') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
+                @error('warranty_id') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
             </div>
 
             {{-- Category --}}
@@ -138,7 +154,22 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+            {{-- Warranties Duration --}}
+            <div>
+                <label class="block text-gray-700 font-medium mb-2">Warranty Duration</label>
+                <select name="duration" id="duration" class="w-full border border-gray-300 rounded-lg p-2">
+                    <option value="">Select Duration</option>
+                    @foreach ($warranties as $warranty)
+                        <option value="{{ $warranty->duration }}" {{ old('warranty_duration') == $warranty->duration ? 'selected' : '' }}>
+                            {{ $warranty->duration }} {{ ucfirst($warranty->duration_type) }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('warranty_duration') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
+            </div>
+
             {{-- Supplier --}}
             <div>
                 <label class="block text-gray-700 font-medium mb-2">Supplier</label>
@@ -160,7 +191,7 @@
                     <option value="">Select Unit</option>
                     @foreach($units as $unit)
                         <option value="{{ $unit->id }}" {{ old('unit_id') == $unit->id ? 'selected' : '' }}>
-                            {{ $unit->name }}
+                            {{ $unit->short_name }}
                         </option>
                     @endforeach
                 </select>
@@ -235,4 +266,17 @@
         </div>
     </form>
 </div>
+
+
+<script>
+    document.getElementById('generate-sku').addEventListener('click', function () {
+        // Generate random SKU: SKU-20251020-ABC12
+        const randomPart = Math.random().toString(36).substring(2, 7).toUpperCase();
+        const datePart = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+        const sku = `SKU-${datePart}-${randomPart}`;
+
+        // Set the generated SKU into input
+        document.getElementById('sku').value = sku;
+    });
+</script>
 @endsection
