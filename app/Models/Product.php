@@ -33,8 +33,8 @@ class Product extends Model
     public function brand(){
         return $this->belongsTo(Brands::class);
     }
-    public function supplier(){
-        return $this->belongsTo(Supplier::class);
+    public function subCategory(){
+        return $this->belongsTo(SubCategories::class);
     }
     public function unit(){
         return $this->belongsTo(Units::class);

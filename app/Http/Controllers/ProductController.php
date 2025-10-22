@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Brands;
 use App\Models\Categories;
 use App\Models\Product;
+use App\Models\SubCategories;
 use App\Models\Units;
 use App\Models\Variants;
 use App\Models\Warranty;
@@ -30,8 +31,9 @@ class ProductController extends Controller
         $units = Units::all();
         $variants = Variants::all();
         $warranties = Warranty::all();
+        $sub_categories = SubCategories::all();
 
-        return view('backend.products.create', compact('categories', 'brands', 'units', 'variants', 'warranties'));
+        return view('backend.products.create', compact('categories', 'brands', 'units', 'variants', 'warranties', 'sub_categories'));
     }
 
     /**
@@ -120,9 +122,10 @@ class ProductController extends Controller
         $units = Units::all();
         $warranties = Warranty::all();
         $variants = Variants::all();
+        $sub_categories = SubCategories::all();
 
 
-        return view('backend.products.edit', compact('product', 'categories', 'brands', 'units',  'warranties', 'variants'));
+        return view('backend.products.edit', compact('product', 'categories', 'brands', 'units',  'warranties', 'variants', 'sub_categories'));
     }
 
     /**

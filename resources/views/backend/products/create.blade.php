@@ -60,38 +60,6 @@
             </div>
         </div>
 
-        {{-- Description --}}
-        <div>
-            <label class="block text-gray-700 font-medium mb-2">Description</label>
-            <textarea name="description" rows="4"
-                class="w-full border border-gray-300 rounded-lg p-2 focus:ring focus:ring-blue-200 focus:border-blue-400">{{ old('description') }}</textarea>
-            @error('description') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
-        </div>
-
-        {{-- Pricing --}}
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div>
-                <label class="block text-gray-700 font-medium mb-2">Purchase Price ($) <span class="text-red-500">*</span></label>
-                <input type="number" step="0.01" name="purchase_price" value="{{ old('purchase_price') }}"
-                    class="w-full border border-gray-300 rounded-lg p-2">
-                @error('purchase_price') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
-            </div>
-
-            <div>
-                <label class="block text-gray-700 font-medium mb-2">Selling Price ($) <span class="text-red-500">*</span></label>
-                <input type="number" step="0.01" name="selling_price" value="{{ old('selling_price') }}"
-                    class="w-full border border-gray-300 rounded-lg p-2">
-                @error('selling_price') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
-            </div>
-
-            <div>
-                <label class="block text-gray-700 font-medium mb-2">Discount Price ($)</label>
-                <input type="number" step="0.01" name="discount_price" value="{{ old('discount_price') }}"
-                    class="w-full border border-gray-300 rounded-lg p-2">
-                @error('discount_price') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
-            </div>
-        </div>
-
         {{-- Stock Management --}}
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
@@ -139,19 +107,20 @@
                 @error('category_id') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
             </div>
 
-            {{-- Brand --}}
+            {{-- Sub Category --}}
             <div>
-                <label class="block text-gray-700 font-medium mb-2">Brand</label>
-                <select name="brand_id" class="w-full border border-gray-300 rounded-lg p-2">
-                    <option value="">Select Brand</option>
-                    @foreach($brands as $brand)
-                        <option value="{{ $brand->id }}" {{ old('brand_id') == $brand->id ? 'selected' : '' }}>
-                            {{ $brand->name }}
+                <label class="block text-gray-700 font-medium mb-2">Sub Category</label>
+                <select name="sub_category_id" class="w-full border border-gray-300 rounded-lg p-2">
+                    <option value="">Select Sub Category</option>
+                    @foreach($sub_categories as $sub_category)
+                        <option value="{{ $sub_category->id }}" {{ old('sub_category_id') == $sub_category->id ? 'selected' : '' }}>
+                            {{ $sub_category->name }}
                         </option>
                     @endforeach
                 </select>
-                @error('brand_id') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
+                @error('sub_category_id') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
             </div>
+
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -170,18 +139,18 @@
                 @error('warranty_duration') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
             </div>
 
-            {{-- Supplier --}}
+            {{-- Brand --}}
             <div>
-                <label class="block text-gray-700 font-medium mb-2">Supplier</label>
-                <select name="supplier_id" class="w-full border border-gray-300 rounded-lg p-2">
-                    <option value="">Select Supplier</option>
-                    {{-- @foreach($suppliers as $supplier)
-                        <option value="{{ $supplier->id }}" {{ old('supplier_id') == $supplier->id ? 'selected' : '' }}>
-                            {{ $supplier->name }}
+                <label class="block text-gray-700 font-medium mb-2">Brand</label>
+                <select name="brand_id" class="w-full border border-gray-300 rounded-lg p-2">
+                    <option value="">Select Brand</option>
+                    @foreach($brands as $brand)
+                        <option value="{{ $brand->id }}" {{ old('brand_id') == $brand->id ? 'selected' : '' }}>
+                            {{ $brand->name }}
                         </option>
-                    @endforeach --}}
+                    @endforeach
                 </select>
-                @error('supplier_id') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
+                @error('brand_id') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
             </div>
 
             {{-- Unit --}}
@@ -226,36 +195,126 @@
             </div>
         </div>
 
-        {{-- Warranty --}}
-        {{-- <div>
-        <select name="warranty_id" required>
-            <option value="">Select Warranty</option>
-            @foreach ($warranties as $warranty)
-                <option value="{{ $warranty->id }}">{{ $warranty->name }}</option>
-            @endforeach
-        </select>
-        @error('warranty_id') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
-        </div> --}}
+        {{-- Description --}}
+        <div>
+            <label class="block text-gray-700 font-medium mb-2">Description</label>
+            <textarea name="description" rows="4"
+                class="w-full border border-gray-300 rounded-lg p-2 focus:ring focus:ring-blue-200 focus:border-blue-400">{{ old('description') }}</textarea>
+            @error('description') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
+        </div>
+
+        {{-- End Product Information --}}
 
 
-        {{-- Thumbnail & Images --}}
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {{-- Thumbnail --}}
-            <div>
-                <label class="block text-gray-700 font-medium mb-2">Thumbnail</label>
-                <input type="file" name="thumbnail"
-                    class="w-full border border-gray-300 rounded-lg p-2 bg-gray-50">
-                @error('thumbnail') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
-            </div>
+        {{-- Product Pricing Section --}}
+        <div class="border-t-2 border-[#b1b1b1] pt-6" style="margin-top: 65px;">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Product Pricing</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                    <label class="block text-gray-700 font-medium mb-2">Purchase Price ($) <span class="text-red-500">*</span></label>
+                    <input type="number" step="0.01" name="purchase_price" value="{{ old('purchase_price') }}"
+                        class="w-full border border-gray-300 rounded-lg p-2">
+                    @error('purchase_price') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
+                </div>
 
-            {{-- Multiple Images --}}
-            <div>
-                <label class="block text-gray-700 font-medium mb-2">Gallery Images</label>
-                <input type="file" name="images[]" multiple
-                    class="w-full border border-gray-300 rounded-lg p-2 bg-gray-50">
-                @error('images.*') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
+                <div>
+                    <label class="block text-gray-700 font-medium mb-2">Selling Price ($) <span class="text-red-500">*</span></label>
+                    <input type="number" step="0.01" name="selling_price" value="{{ old('selling_price') }}"
+                        class="w-full border border-gray-300 rounded-lg p-2">
+                    @error('selling_price') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
+                </div>
+
+                <div>
+                    <label class="block text-gray-700 font-medium mb-2">Discount Price ($)</label>
+                    <input type="number" step="0.01" name="discount_price" value="{{ old('discount_price') }}"
+                        class="w-full border border-gray-300 rounded-lg p-2">
+                    @error('discount_price') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
+                </div>
+
+                <div>
+                    <label class="block text-gray-700 font-medium mb-2">Tax Type</label>
+                    <select name="tax_type" id="tax_type" class="w-full border border-gray-300 rounded-lg p-2">
+                        <option value="">Select</option>
+                        <option value="inclusive" {{ old('tax_type') == 'inclusive' ? 'selected' : '' }}>Inclusive</option>
+                        <option value="exclusive" {{ old('tax_type') == 'exclusive' ? 'selected' : '' }}>Exclusive</option>
+                    </select>
+                    @error('tax_type') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
+                </div>
+
+                <div>
+                    <label class="block text-gray-700 font-medium mb-2">Tax Amount (%)</label>
+                    <input type="number" step="0.01" name="tax_amount" value="{{ old('tax_amount') }}"
+                        class="w-full border border-gray-300 rounded-lg p-2">
+                    @error('tax_amount') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
+                </div>
+
+                <div>
+                    <label class="block text-gray-700 font-medium mb-2">Total Amount</label>
+                    <input type="number" step="0.01" name="total_amount" value="{{ old('total_amount') }}"
+                        class="w-full border border-gray-300 rounded-lg p-2">
+                    @error('total_amount') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
+                </div>
             </div>
         </div>
+
+
+        {{-- Product Image Section --}}
+        <div class="border-t-2 border-[#b1b1b1] pt-6" style="margin-top: 65px;">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Images</h3>
+
+            <div id="image-upload-section" class="border border-gray-200 rounded-lg p-4 bg-gray-50">
+                <div class="flex flex-wrap items-center gap-4" id="image-preview-container">
+                    <label for="product_images"
+                        class="flex flex-col items-center justify-center w-28 h-28 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer bg-white hover:bg-gray-100 transition">
+                        <span class="text-gray-400 text-sm flex flex-col items-center">
+                            <i class="fas fa-plus text-gray-400 text-xl mb-1"></i>
+                            Add Images
+                        </span>
+                        <input type="file" id="product_images" name="images[]" multiple accept="image/*" class="hidden">
+                    </label>
+
+                </div>
+            </div>
+            @error('images')
+                <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
+            @enderror
+        </div>
+
+
+        {{-- Custom FIled --}}
+        <div class="border-t-2 border-[#b1b1b1] pt-6" style="margin-top: 65px;">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Custom Fileds</h3>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+                <div>
+                    <label class="block text-gray-700 font-medium mb-2">Manufacturer</label>
+                    <input type="text" step="0.01" name="manufacturer" value="{{ old('manufacturer') }}"
+                        class="w-full border border-gray-300 rounded-lg p-2">
+                    @error('manufacturer') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
+                </div>
+
+                <div>
+                    <label class="block text-gray-700 font-medium mb-2">Manufacturer Date</label>
+                    <input type="date" step="0.01" name="manufacturer_date" value="{{ old('manufacturer_date') }}"
+                        class="w-full border border-gray-300 rounded-lg p-2">
+                    @error('manufacturer_date') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
+                </div>
+
+                <div>
+                    <label class="block text-gray-700 font-medium mb-2">Expire Date</label>
+                    <input type="date" step="0.01" name="expire_date" value="{{ old('expire_date') }}"
+                        class="w-full border border-gray-300 rounded-lg p-2">
+                    @error('expire_date') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
 
         {{-- Submit --}}
         <div class="flex justify-end">
@@ -269,14 +328,47 @@
 
 
 <script>
-    document.getElementById('generate-sku').addEventListener('click', function () {
-        // Generate random SKU: SKU-20251020-ABC12
+    document.getElementById('generate-sku').addEventListener('click', function() {
         const randomPart = Math.random().toString(36).substring(2, 7).toUpperCase();
         const datePart = new Date().toISOString().slice(0, 10).replace(/-/g, '');
         const sku = `SKU-${datePart}-${randomPart}`;
 
-        // Set the generated SKU into input
         document.getElementById('sku').value = sku;
+    });
+
+
+    // Image Preview Functionality
+    const imageInput = document.getElementById('product_images');
+    const imagePreviewContainer = document.getElementById('image-preview-container');
+
+    imageInput.addEventListener('change', function(event) {
+        const files = Array.from(event.target.files);
+
+        files.forEach(file => {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                const imageBox = document.createElement('div');
+                imageBox.classList.add('relative', 'w-28', 'h-28', 'rounded-lg', 'overflow-hidden', 'border', 'border-gray-200', 'bg-white', 'shadow-sm');
+
+                imageBox.innerHTML = `
+                    <img src="${e.target.result}" class="w-full h-full object-cover" alt="Preview">
+                    <button type="button" class="absolute top-1 right-1 bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold hover:bg-red-700 remove-image">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+
+                const addBox = imagePreviewContainer.querySelector('label');
+                imagePreviewContainer.insertBefore(imageBox, addBox);
+                imageBox.querySelector('.remove-image').addEventListener('click', function() {
+                    imageBox.remove();
+                });
+            };
+
+            reader.readAsDataURL(file);
+        });
+
+        event.target.value = '';
     });
 </script>
 @endsection
