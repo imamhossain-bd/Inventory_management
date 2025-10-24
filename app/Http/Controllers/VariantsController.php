@@ -17,37 +17,36 @@ class VariantsController extends Controller
         return view('backend.variants.index', compact('variants'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
         $products = Product::all();
         return view('backend.variants.create', compact('products'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(Request $request)
     {
         $request->validate([
-            'product_id' => 'nullable|exists:products,id',
             'name' => 'required|string|max:255',
+            'type' => 'nullable|string|max:50',
             'values' => 'required|array|min:1',
-            'values.*' => 'string|max:255',
+            'values.*' => 'nullable|string|max:255',
             'status' => 'boolean',
         ]);
 
-            Variants::create([
-                'product_id' => $request->product_id,
-                'name' => $request->name,
-                'value' => $request->values,
-                'status' => $request->status ?? 1,
-            ]);
+        Variants::create([
+            'name' => $request->name,
+            'type' => $request->type,
+            'value' => $request->values,
+            'product_id' => $request->product_id,
+            'description' => $request->description,
+            'status' => $request->status ?? 1,
+        ]);
 
-        return redirect()->route('backend.variants.index')->with('success', 'Variant(s) created successfully.');
+        return redirect()->route('backend.variants.index')->with('success', 'Variant created successfully.');
     }
+
 
     /**
      * Display the specified resource.
@@ -71,32 +70,32 @@ class VariantsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-     public function update(Request $request, Variants $variant)
+    public function update(Request $request, Variants $variant)
     {
         $request->validate([
-            'product_id' => 'nullable|exists:products,id',
             'name' => 'required|string|max:255',
+            'type' => 'nullable|string|max:50',
             'values' => 'required|array|min:1',
-            'values.*' => 'string|max:255',
+            'values.*' => 'nullable|string|max:255',
             'status' => 'boolean',
         ]);
 
         $variant->update([
-            'product_id' => $request->product_id,
             'name' => $request->name,
+            'type' => $request->type,
             'value' => $request->values,
+            'product_id' => $request->product_id,
+            'description' => $request->description,
             'status' => $request->status ?? 1,
         ]);
 
         return redirect()->route('backend.variants.index')->with('success', 'Variant updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Variants $variants)
+
+    public function destroy(Variants $variant)
     {
-        $variants->delete();
+        $variant->delete();
         return redirect()->route('backend.variants.index')->with('success', 'Variant deleted successfully.');
     }
 }

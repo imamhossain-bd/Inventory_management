@@ -52,11 +52,17 @@
             </div>
 
             {{-- Barcode --}}
-            <div>
-                <label class="block text-gray-700 font-medium mb-2">Barcode</label>
-                <input type="text" name="barcode" value="{{ old('barcode') }}"
-                    class="w-full border border-gray-300 rounded-lg p-2 focus:ring focus:ring-blue-200 focus:border-blue-400">
-                @error('barcode') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
+           <div>
+                <label class="block text-gray-700 font-medium mb-2">
+                    Barcode <span class="text-red-500">*</span>
+                </label>
+                <div class="flex">
+                    <input type="text" id="barcode" name="barcode" value="{{ old('barcode') }}" placeholder="Enter or generate Barcode" class="flex-1 border border-gray-300 rounded-l-lg px-4 py-2.5 text-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                    <button type="button" id="generate-barcode"  class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-r-lg font-medium transition" > Generate </button>
+                </div>
+                @error('barcode')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
             </div>
         </div>
 
@@ -210,30 +216,38 @@
         <div class="border-t-2 border-[#b1b1b1] pt-6" style="margin-top: 65px;">
             <h3 class="text-lg font-semibold text-gray-800 mb-4">Product Pricing</h3>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Purchase Price -->
                 <div>
                     <label class="block text-gray-700 font-medium mb-2">Purchase Price ($) <span class="text-red-500">*</span></label>
-                    <input type="number" step="0.01" name="purchase_price" value="{{ old('purchase_price') }}"
+                    <input type="number" step="0.01" name="purchase_price" id="purchase_price"
+                        value="{{ old('purchase_price') }}"
                         class="w-full border border-gray-300 rounded-lg p-2">
                     @error('purchase_price') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
                 </div>
 
+                <!-- Selling Price -->
                 <div>
                     <label class="block text-gray-700 font-medium mb-2">Selling Price ($) <span class="text-red-500">*</span></label>
-                    <input type="number" step="0.01" name="selling_price" value="{{ old('selling_price') }}"
+                    <input type="number" step="0.01" name="selling_price" id="selling_price"
+                        value="{{ old('selling_price') }}"
                         class="w-full border border-gray-300 rounded-lg p-2">
                     @error('selling_price') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
                 </div>
 
+                <!-- Discount Price -->
                 <div>
                     <label class="block text-gray-700 font-medium mb-2">Discount Price ($)</label>
-                    <input type="number" step="0.01" name="discount_price" value="{{ old('discount_price') }}"
+                    <input type="number" step="0.01" name="discount_price" id="discount_price"
+                        value="{{ old('discount_price') }}"
                         class="w-full border border-gray-300 rounded-lg p-2">
                     @error('discount_price') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
                 </div>
 
+                <!-- Tax Type -->
                 <div>
                     <label class="block text-gray-700 font-medium mb-2">Tax Type</label>
-                    <select name="tax_type" id="tax_type" class="w-full border border-gray-300 rounded-lg p-2">
+                    <select name="tax_type" id="tax_type"
+                            class="w-full border border-gray-300 rounded-lg p-2">
                         <option value="">Select</option>
                         <option value="inclusive" {{ old('tax_type') == 'inclusive' ? 'selected' : '' }}>Inclusive</option>
                         <option value="exclusive" {{ old('tax_type') == 'exclusive' ? 'selected' : '' }}>Exclusive</option>
@@ -241,17 +255,22 @@
                     @error('tax_type') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
                 </div>
 
+                <!-- Tax Amount -->
                 <div>
                     <label class="block text-gray-700 font-medium mb-2">Tax Amount (%)</label>
-                    <input type="number" step="0.01" name="tax_amount" value="{{ old('tax_amount') }}"
+                    <input type="number" step="0.01" name="tax_amount" id="tax_amount"
+                        value="{{ old('tax_amount') }}"
                         class="w-full border border-gray-300 rounded-lg p-2">
                     @error('tax_amount') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
                 </div>
 
+                <!-- Total Amount -->
                 <div>
                     <label class="block text-gray-700 font-medium mb-2">Total Amount</label>
-                    <input type="number" step="0.01" name="total_amount" value="{{ old('total_amount') }}"
-                        class="w-full border border-gray-300 rounded-lg p-2">
+                    <input type="number" step="0.01" name="total_amount" id="total_amount"
+                        value="{{ old('total_amount') }}"
+                        class="w-full border border-gray-300 rounded-lg p-2 bg-gray-100 text-gray-700"
+                        readonly>
                     @error('total_amount') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
                 </div>
             </div>
@@ -279,6 +298,7 @@
                 <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
             @enderror
         </div>
+
 
 
         {{-- Custom FIled --}}
@@ -310,12 +330,6 @@
         </div>
 
 
-
-
-
-
-
-
         {{-- Submit --}}
         <div class="flex justify-end">
             <button type="submit"
@@ -328,12 +342,20 @@
 
 
 <script>
+
+    // SKU Code
     document.getElementById('generate-sku').addEventListener('click', function() {
         const randomPart = Math.random().toString(36).substring(2, 7).toUpperCase();
-        const datePart = new Date().toISOString().slice(0, 10).replace(/-/g, '');
-        const sku = `SKU-${datePart}-${randomPart}`;
-
+        // const datePart = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+        // ${datePart}
+        const sku = `SKU-${randomPart}`;
         document.getElementById('sku').value = sku;
+    });
+
+    // BarCode
+    document.getElementById('generate-barcode').addEventListener('click', function () {
+        const randomBarcode = 'BC' + Math.floor(100000000000 + Math.random() * 900000000000);
+        document.getElementById('barcode').value = randomBarcode;
     });
 
 
@@ -369,6 +391,44 @@
         });
 
         event.target.value = '';
+    });
+
+
+    // Selling Price
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const sellingPrice = document.getElementById('selling_price');
+        const discountPrice = document.getElementById('discount_price');
+        const taxType = document.getElementById('tax_type');
+        const taxAmount = document.getElementById('tax_amount');
+        const totalAmount = document.getElementById('total_amount');
+
+        function calculateTotal() {
+            let sell = parseFloat(sellingPrice.value) || 0;
+            let discount = parseFloat(discountPrice.value) || 0;
+            let tax = parseFloat(taxAmount.value) || 0;
+            let type = taxType.value;
+
+            let priceAfterDiscount = sell - discount;
+            let total = 0;
+
+            if (type === 'exclusive') {
+                total = priceAfterDiscount + (priceAfterDiscount * tax / 100);
+            } else if (type === 'inclusive') {
+                total = priceAfterDiscount;
+            } else {
+                total = priceAfterDiscount;
+            }
+
+            totalAmount.value = total.toFixed(2);
+        }
+
+        // Trigger calculation on any change
+        [sellingPrice, discountPrice, taxAmount, taxType].forEach(el => {
+            el.addEventListener('input', calculateTotal);
+            el.addEventListener('change', calculateTotal);
+        });
+        calculateTotal();
     });
 </script>
 @endsection

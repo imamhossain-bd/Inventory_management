@@ -20,13 +20,13 @@
     <form action="{{ route('backend.variants.store') }}" method="POST">
         @csrf
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Product Selection -->
+            <!-- Product Selection (optional) -->
             <div>
-                <label class="block text-gray-700 font-medium mb-2">Select Product <span class="text-red-500">*</span></label>
+                <label class="block text-gray-700 font-medium mb-2">Select Product</label>
                 <select name="product_id" id="product_id"
                     class="w-full border border-gray-300 rounded-lg px-4 py-2.5 bg-gray-50 text-gray-700
                         focus:bg-white focus:border-orange-400 focus:ring-2 focus:ring-orange-200 focus:outline-none shadow-sm transition">
-                    <option value="">-- Choose a Product --</option>
+                    <option value="">-- None --</option>
                     @foreach($products as $product)
                         <option value="{{ $product->id }}" {{ old('product_id') == $product->id ? 'selected' : '' }}>
                             {{ $product->name }}
@@ -44,19 +44,36 @@
                 <input type="text" name="name" id="name" value="{{ old('name') }}"
                     placeholder="e.g., Color, Size, Material"
                     class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-gray-700 bg-gray-50
-                           focus:bg-white focus:border-orange-400 focus:ring-2 focus:ring-orange-200 focus:outline-none shadow-sm transition">
+                           focus:bg-white focus:border-orange-400 focus:ring-2 focus:ring-orange-200 focus:outline-none shadow-sm transition" required>
                 @error('name')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <!-- Variant Type -->
+            <div>
+                <label class="block text-gray-700 font-medium mb-2">Variant Type <span class="text-red-500">*</span></label>
+                <select name="type" id="type"
+                    class="w-full border border-gray-300 rounded-lg px-4 py-2.5 bg-gray-50 text-gray-700
+                           focus:bg-white focus:border-orange-400 focus:ring-2 focus:ring-orange-200 focus:outline-none shadow-sm transition" required>
+                    <option value="">-- Select Type --</option>
+                    <option value="select" {{ old('type') == 'select' ? 'selected' : '' }}>Select</option>
+                    <option value="color" {{ old('type') == 'color' ? 'selected' : '' }}>Color</option>
+                    <option value="text" {{ old('type') == 'text' ? 'selected' : '' }}>Text</option>
+                    <option value="number" {{ old('type') == 'number' ? 'selected' : '' }}>Number</option>
+                </select>
+                @error('type')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
             </div>
 
             <!-- Status -->
             <div>
-                <label class="block text-gray-700 font-medium mb-2">Status <span class="text-red-500">*</span></label>
+                <label class="block text-gray-700 font-medium mb-2">Status</label>
                 <select name="status" id="status"
                     class="w-full border border-gray-300 rounded-lg px-4 py-2.5 bg-gray-50 text-gray-700
                            focus:bg-white focus:border-orange-400 focus:ring-2 focus:ring-orange-200 focus:outline-none shadow-sm transition">
-                    <option value="1" {{ old('status') == '1' ? 'selected' : '' }}>Active</option>
+                    <option value="1" {{ old('status', 1) == '1' ? 'selected' : '' }}>Active</option>
                     <option value="0" {{ old('status') == '0' ? 'selected' : '' }}>Inactive</option>
                 </select>
                 @error('status')
@@ -77,7 +94,7 @@
             </div>
         </div>
 
-        <!-- Dynamic Variant Values -->
+        <!-- Variant Values -->
         <div class="mt-8">
             <h3 class="text-lg font-semibold text-gray-800 mb-3 flex items-center space-x-2">
                 <i class="fas fa-list text-orange-500"></i>
@@ -88,7 +105,7 @@
                 <div class="flex items-center gap-3">
                     <input type="text" name="values[]" placeholder="Enter a value (e.g., Red, Large)"
                         class="flex-1 border border-gray-300 rounded-lg px-4 py-2.5 bg-gray-50 text-gray-700
-                               focus:bg-white focus:border-orange-400 focus:ring-2 focus:ring-orange-200 focus:outline-none shadow-sm transition">
+                               focus:bg-white focus:border-orange-400 focus:ring-2 focus:ring-orange-200 focus:outline-none shadow-sm transition" required>
                     <button type="button" onclick="addValueField()"
                         class="bg-orange-500 hover:bg-orange-600 text-white px-3 py-2 rounded-md">
                         <i class="fas fa-plus"></i>
@@ -118,9 +135,9 @@
         const field = document.createElement('div');
         field.classList.add('flex', 'items-center', 'gap-3');
         field.innerHTML = `
-            <input type="text" name="values[]" placeholder="Enter a value (e.g., Blue, Medium)"
+            <input type="text" name="values[]" placeholder="Enter a value"
                 class="flex-1 border border-gray-300 rounded-lg px-4 py-2.5 bg-gray-50 text-gray-700
-                       focus:bg-white focus:border-orange-400 focus:ring-2 focus:ring-orange-200 focus:outline-none shadow-sm transition">
+                       focus:bg-white focus:border-orange-400 focus:ring-2 focus:ring-orange-200 focus:outline-none shadow-sm transition" required>
             <button type="button" onclick="this.parentElement.remove()"
                 class="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-md">
                 <i class="fas fa-minus"></i>

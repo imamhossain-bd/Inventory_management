@@ -25,10 +25,10 @@
     <!-- Variant Info Card -->
     <div class="grid md:grid-cols-2 gap-6">
         <div class="space-y-4">
-            <div>
+            {{-- <div>
                 <h3 class="text-gray-600 font-semibold">Product</h3>
                 <p class="text-gray-800 font-medium">{{ $variant->product->name ?? 'N/A' }}</p>
-            </div>
+            </div> --}}
             <div>
                 <h3 class="text-gray-600 font-semibold">Variant Name</h3>
                 <p class="text-gray-800 font-medium">{{ $variant->name }}</p>

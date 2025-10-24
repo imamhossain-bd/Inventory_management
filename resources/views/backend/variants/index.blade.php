@@ -57,10 +57,10 @@
                             @endif
                         </td>
                         <td class="px-4 py-3 flex justify-center space-x-2">
-                            <a href="{{ route('backend.variants.show', $variant->id) }}"
+                            {{-- <a href="{{ route('backend.variants.show', $variant->id) }}"
                                 class="text-green-500 hover:text-green-700">
                                 <i class="fas fa-eye"></i>
-                            </a>
+                            </a> --}}
 
                             <a href="{{ route('backend.variants.edit', $variant->id) }}"
                                 class="text-blue-500 hover:text-blue-700">

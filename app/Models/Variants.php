@@ -10,8 +10,10 @@ class Variants extends Model
 
     protected $fillable = [
         'name',
+        'type',
         'value',
         'product_id',
+        'description',
         'status',
     ];
 

@@ -6,24 +6,22 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
+
     public function up(): void
     {
         Schema::create('variants', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->json('value');
-            $table->foreignId('product_id')->constrained()->onDelete('cascade');
+            $table->string('type')->nullable();
+            $table->json('value')->nullable();
+            $table->unsignedBigInteger('product_id')->nullable();
+            $table->text('description')->nullable();
             $table->boolean('status')->default(1);
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
+
     public function down(): void
     {
         Schema::dropIfExists('variants');
