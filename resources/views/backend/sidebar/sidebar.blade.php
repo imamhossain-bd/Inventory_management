@@ -61,7 +61,7 @@
                 <span x-show="open" class="ml-2">Create Product</span>
             </a>
 
-            <a href="#" class="flex items-center px-3 py-2 rounded-md hover:bg-orange-50 hover:text-orange-600 {{ request()->routeIs('backend.products.expired') ? 'bg-orange-100 text-orange-600 font-semibold' : '' }}">
+            <a href="{{ route('backend.expire-products.index') }}" class="flex items-center px-3 py-2 rounded-md hover:bg-orange-50 hover:text-orange-600 {{ request()->routeIs('backend.expire-products.index') ? 'bg-orange-100 text-orange-600 font-semibold' : '' }}">
                 <i class="fas fa-clock w-6 text-center"></i>
                 <span x-show="open" class="ml-2">Expired Products</span>
             </a>

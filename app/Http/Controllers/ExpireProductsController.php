@@ -2,64 +2,53 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ExpireProducts;
+use App\Models\ExpireProduct;
 use Illuminate\Http\Request;
 
 class ExpireProductsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
-        //
+        $expireProducts = ExpireProduct::latest()->paginate(10);
+        return view('backend.expire-products.index', compact('expireProducts'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(ExpireProducts $expireProducts)
+
+    public function show($id)
+    {
+        $expire = ExpireProduct::findOrFail($id);
+        return view('backend.expire-products.show', compact('expire'));
+    }
+
+
+    public function edit(ExpireProduct $expireProducts)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(ExpireProducts $expireProducts)
+
+    public function update(Request $request, ExpireProduct $expireProducts)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, ExpireProducts $expireProducts)
-    {
-        //
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(ExpireProducts $expireProducts)
+    public function destroy(ExpireProduct $expireProducts)
     {
-        //
+        $expireProducts->delete();
+        return redirect()->route('backend.expire-products.index')->with('success', 'Expired product deleted successfully.');
     }
 }

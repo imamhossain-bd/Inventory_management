@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\BrandsController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\ExpireProductsController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SubCategoriesController;
 use App\Http\Controllers\UnitsController;
@@ -88,7 +89,10 @@ Route::prefix('backend')->name('backend.')->middleware('auth')->group(function()
 
     // variant routes
     Route::resource('variants', VariantsController::class);
+    // Warranties Routes
     Route::resource('warranties', WarrantyController::class);
+    // Expire Product Routes
+    Route::resource('expire-products', ExpireProductsController::class);
 
 });
 
