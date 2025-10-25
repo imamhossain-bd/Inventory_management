@@ -30,8 +30,8 @@ class VariantsController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'type' => 'nullable|string|max:50',
-            'values' => 'required|array|min:1',
-            'values.*' => 'nullable|string|max:255',
+            'value' => 'required|array|min:1',
+            'value.*' => 'nullable|string|max:255',
             'status' => 'boolean',
         ]);
 
@@ -75,8 +75,8 @@ class VariantsController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'type' => 'nullable|string|max:50',
-            'values' => 'required|array|min:1',
-            'values.*' => 'nullable|string|max:255',
+            'value' => 'required|array|min:1',
+            'value.*' => 'nullable|string|max:255',
             'status' => 'boolean',
         ]);
 

@@ -80,9 +80,9 @@
                         @endif
                         <span>{{ $product->name }}</span>
                     </td>
-                    <td class="px-4 py-3 text-gray-600">{{ $product->category->cat_name ?? 'N/A' }}</td>
+                    <td class="px-4 py-3 text-gray-600">{{ $product->categories->cat_name ?? 'N/A' }}</td>
                     <td class="px-4 py-3 text-gray-600">{{ $product->brand->name ?? 'N/A' }}</td>
-                    <td class="px-4 py-3 text-gray-700">${{ number_format($product->selling_price, 2) }}</td>
+                    <td class="px-4 py-3 text-gray-700">${{ number_format($product->total_amount, 2) }}</td>
                     <td class="px-4 py-3 text-gray-700">{{ $product->unit->name ?? 'Pc' }}</td>
                     <td class="px-4 py-3 text-gray-700">{{ $product->stock }}</td>
                     <td class="px-4 py-3 flex gap-2">

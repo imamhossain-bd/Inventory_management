@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Brands;
-use App\Models\Categories;
+use App\Models\Category;
 use App\Models\Product;
 use App\Models\SubCategories;
 use App\Models\Units;
@@ -25,7 +25,7 @@ class ProductController extends Controller
 
     public function create()
     {
-        $categories = Categories::all();
+        $categories = Category::all();
         $brands = Brands::all();
         $units = Units::all();
         $variants = Variants::all();
@@ -47,9 +47,11 @@ class ProductController extends Controller
             'purchase_price'   => 'required|numeric|min:0',
             'selling_price'    => 'required|numeric|min:0',
             'discount_price'   => 'nullable|numeric|min:0',
+            'tax_type'         => 'nullable|in:inclusive,exclusive',
+            'tax_amount'       => 'nullable|numeric|min:0',
+            'total_amount'     => 'nullable|numeric|min:0',
             'stock'            => 'required|integer|min:0',
             'stock_alert'      => 'nullable|integer|min:0',
-            'thumbnail'        => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'images'           => 'nullable|array',
             'images.*'         => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'status'           => 'required|in:active,inactive',
@@ -63,36 +65,32 @@ class ProductController extends Controller
 
         // ✅ Create Product
         $product = Product::create([
-            'name'            => $request->name,
-            'slug'            => $request->slug ?? Str::slug($request->name) . '-' . strtoupper(Str::random(4)),
-            'sku'             => $request->sku,
-            'barcode'         => $request->barcode,
-            'purchase_price'  => $request->purchase_price,
-            'selling_price'   => $request->selling_price,
-            'discount_price'  => $request->discount_price,
-            'stock'           => $request->stock,
-            'stock_alert'     => $request->stock_alert ?? 10,
-            'description'     => $request->description,
-            'status'          => $request->status,
-            'warranty_id'     => $request->warranty_id,
-            'category_id'     => $request->category_id,
-            'sub_category_id' => $request->sub_category_id,
-            'brand_id'        => $request->brand_id,
-            'unit_id'         => $request->unit_id,
-            'variants_id'     => $request->variants_id,
-            'duration'        => $request->duration,
-            'manufacturer'    => $request->manufacturer,
+            'name'              => $request->name,
+            'slug'              => $request->slug ?? Str::slug($request->name) . '-' . strtoupper(Str::random(4)),
+            'sku'               => $request->sku,
+            'barcode'           => $request->barcode,
+            'purchase_price'    => $request->purchase_price,
+            'selling_price'     => $request->selling_price,
+            'discount_price'    => $request->discount_price,
+            'tax_type'          => $request->tax_type,
+            'tax_amount'        => $request->tax_amount,
+            'total_amount'      => $request->total_amount,
+            'stock'             => $request->stock,
+            'stock_alert'       => $request->stock_alert ?? 10,
+            'description'       => $request->description,
+            'status'            => $request->status,
+            'warranty_id'       => $request->warranty_id,
+            'category_id'       => $request->category_id,
+            'sub_category_id'   => $request->sub_category_id,
+            'brand_id'          => $request->brand_id,
+            'unit_id'           => $request->unit_id,
+            'variants_id'       => $request->variants_id,
+            'duration'          => $request->duration,
+            'manufacturer'      => $request->manufacturer,
             'manufacturer_date' => $request->manufacturer_date,
-            'expire_date'     => $request->expire_date,
+            'expire_date'       => $request->expire_date,
         ]);
 
-        // ✅ Thumbnail upload
-        // if ($request->hasFile('thumbnail')) {
-        //     $thumbnailPath = $request->file('thumbnail')->store('products/thumbnails', 'public');
-        //     $product->update(['thumbnail' => $thumbnailPath]);
-        // }
-
-        // ✅ Multiple images upload
         if ($request->hasFile('images')) {
             $imagePaths = [];
             foreach ($request->file('images') as $image) {
@@ -105,13 +103,14 @@ class ProductController extends Controller
         return redirect()->route('backend.products.index')->with('success', '✅ Product created successfully.');
     }
 
+
     /**
      * Show the form for editing a product.
      */
     public function edit($id)
     {
         $product = Product::findOrFail($id);
-        $categories = Categories::all();
+        $categories = Category::all();
         $brands = Brands::all();
         $units = Units::all();
         $variants = Variants::all();
@@ -128,16 +127,18 @@ class ProductController extends Controller
     {
         $request->validate([
             'name'             => 'required|string|max:255',
-            'slug'             => 'nullable|string|max:255|unique:products,slug,' . $product->id,
-            'sku'              => 'required|string|max:100|unique:products,sku,' . $product->id,
+            'slug'             => 'nullable|string|max:255|unique:products,slug',
+            'sku'              => 'required|string|max:100|unique:products,sku',
             'description'      => 'nullable|string',
             'barcode'          => 'nullable|string|max:100',
             'purchase_price'   => 'required|numeric|min:0',
             'selling_price'    => 'required|numeric|min:0',
             'discount_price'   => 'nullable|numeric|min:0',
+            'tax_type'         => 'nullable|in:inclusive,exclusive',
+            'tax_amount'       => 'nullable|numeric|min:0',
+            'total_amount'     => 'nullable|numeric|min:0',
             'stock'            => 'required|integer|min:0',
             'stock_alert'      => 'nullable|integer|min:0',
-            'thumbnail'        => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'images'           => 'nullable|array',
             'images.*'         => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'status'           => 'required|in:active,inactive',
@@ -150,37 +151,31 @@ class ProductController extends Controller
         ]);
 
         $product->update([
-            'name'            => $request->name,
-            'slug'            => $request->slug ?? Str::slug($request->name),
-            'sku'             => $request->sku,
-            'barcode'         => $request->barcode,
-            'purchase_price'  => $request->purchase_price,
-            'selling_price'   => $request->selling_price,
-            'discount_price'  => $request->discount_price,
-            'stock'           => $request->stock,
-            'stock_alert'     => $request->stock_alert ?? 10,
-            'description'     => $request->description,
-            'status'          => $request->status,
-            'warranty_id'     => $request->warranty_id,
-            'category_id'     => $request->category_id,
-            'sub_category_id' => $request->sub_category_id,
-            'brand_id'        => $request->brand_id,
-            'unit_id'         => $request->unit_id,
-            'variants_id'     => $request->variants_id,
-            'duration'        => $request->duration,
-            'manufacturer'    => $request->manufacturer,
+            'name'              => $request->name,
+            'slug'              => $request->slug ?? Str::slug($request->name) . '-' . strtoupper(Str::random(4)),
+            'sku'               => $request->sku,
+            'barcode'           => $request->barcode,
+            'purchase_price'    => $request->purchase_price,
+            'selling_price'     => $request->selling_price,
+            'discount_price'    => $request->discount_price,
+            'tax_type'          => $request->tax_type,
+            'tax_amount'        => $request->tax_amount,
+            'total_amount'      => $request->total_amount,
+            'stock'             => $request->stock,
+            'stock_alert'       => $request->stock_alert ?? 10,
+            'description'       => $request->description,
+            'status'            => $request->status,
+            'warranty_id'       => $request->warranty_id,
+            'category_id'       => $request->category_id,
+            'sub_category_id'   => $request->sub_category_id,
+            'brand_id'          => $request->brand_id,
+            'unit_id'           => $request->unit_id,
+            'variants_id'       => $request->variants_id,
+            'duration'          => $request->duration,
+            'manufacturer'      => $request->manufacturer,
             'manufacturer_date' => $request->manufacturer_date,
-            'expire_date'     => $request->expire_date,
+            'expire_date'       => $request->expire_date,
         ]);
-
-        // ✅ Replace thumbnail if uploaded
-        // if ($request->hasFile('thumbnail')) {
-        //     if ($product->thumbnail) {
-        //         Storage::disk('public')->delete($product->thumbnail);
-        //     }
-        //     $thumbnailPath = $request->file('thumbnail')->store('products/thumbnails', 'public');
-        //     $product->update(['thumbnail' => $thumbnailPath]);
-        // }
 
         // ✅ Replace images if uploaded
         if ($request->hasFile('images')) {
@@ -200,6 +195,12 @@ class ProductController extends Controller
         return redirect()->route('backend.products.index')->with('success', '✅ Product updated successfully.');
     }
 
+
+    public function show($id){
+        $product = Product::findOrFail($id);
+        return view('backend.products.show', compact('product'));
+    }
+
     /**
      * Remove a product.
      */
@@ -217,7 +218,6 @@ class ProductController extends Controller
 
         $product->delete();
 
-        return redirect()->route('backend.products.index')
-            ->with('success', '🗑️ Product deleted successfully.');
+        return redirect()->route('backend.products.index')->with('success', '🗑️ Product deleted successfully.');
     }
 }

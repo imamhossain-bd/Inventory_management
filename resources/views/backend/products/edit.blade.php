@@ -235,6 +235,39 @@
             </div>
         </div>
 
+
+        {{-- Custom FIled --}}
+        <div class="border-t-2 border-[#b1b1b1] pt-6" style="margin-top: 65px;">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Custom Fileds</h3>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+            {{-- Manufacturer --}}
+                <div>
+                    <label class="block text-gray-700 font-medium mb-2">Manufacturer</label>
+                    <input type="text" name="manufacturer" value="{{ old('manufacturer', $product->manufacturer) }}"
+                        class="w-full border border-gray-300 rounded-lg p-2 focus:ring focus:ring-blue-200 focus:border-blue-400"
+                        placeholder="e.g. HP Company">
+                    @error('manufacturer') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
+                </div>
+
+                {{-- Manufacturer Date --}}
+                <div>
+                    <label class="block text-gray-700 font-medium mb-2">Manufacture Date</label>
+                    <input type="date" name="manufacturer_date" value="{{ old('manufacturer_date', $product->manufacturer_date) }}"
+                        class="w-full border border-gray-300 rounded-lg p-2 focus:ring focus:ring-blue-200 focus:border-blue-400">
+                    @error('manufacturer_date') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
+                </div>
+
+                {{-- Expiry Date --}}
+                <div>
+                    <label class="block text-gray-700 font-medium mb-2">Expire Date</label>
+                    <input type="date" name="expire_date" value="{{ old('expire_date', $product->expire_date) }}"
+                        class="w-full border border-gray-300 rounded-lg p-2 focus:ring focus:ring-blue-200 focus:border-blue-400">
+                    @error('expire_date') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
+                </div>
+            </div>
+        </div>
+
         {{-- Submit --}}
         <div class="flex justify-end mt-6">
             <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-lg">Update Product</button>
