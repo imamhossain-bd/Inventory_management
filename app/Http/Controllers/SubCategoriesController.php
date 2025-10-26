@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Categories;
+use App\Models\Category;
 use App\Models\SubCategories;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ class SubCategoriesController extends Controller
 
     public function create()
     {
-        $categories = Categories::all();
+        $categories = Category::all();
         return view('backend.sub_categories.create', compact('categories'));
     }
 
@@ -72,7 +73,7 @@ class SubCategoriesController extends Controller
 
     public function edit(SubCategories $subCategories)
     {
-        $categories = Categories::all();
+        $categories = Category::all();
         return view('backend.sub_categories.edit', compact('categories', 'subCategories'));
     }
 

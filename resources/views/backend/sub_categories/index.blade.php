@@ -38,7 +38,7 @@
                 <select id="filterCategory"
                         class="border border-gray-300 rounded-lg px-3 py-2 text-gray-700 focus:ring-2 focus:ring-blue-500">
                     <option value="">Category</option>
-                    @foreach(\App\Models\Categories::all() as $category)
+                    @foreach(\App\Models\Category::all() as $category)
                         <option value="{{ $category->id }}">{{ $category->cat_name ?? $category->name }}</option>
                     @endforeach
                 </select>

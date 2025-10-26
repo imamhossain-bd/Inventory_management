@@ -20,7 +20,7 @@ class MoveExpiredProducts extends Command
     {
         $today = Carbon::today();
 
-        $expiredProducts = Product::whereData('expire_data', '<' , $today)->get();
+        $expiredProducts = Product::whereDate('expire_date', '<', $today)->get();
 
         foreach($expiredProducts as $product){
             ExpireProduct::create([

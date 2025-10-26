@@ -9,7 +9,7 @@
     <!-- Logo + Collapse Button -->
     <div class="flex items-center justify-between px-4 py-3 border-b border-gray-200">
         <div class="flex items-center space-x-2">
-            <span x-show="open" class="font-bold text-xl text-gray-900">Dreams<span class="text-orange-500">POS</span></span>
+            <span x-show="open" class="font-bold text-xl text-gray-900">Nexo<span class="text-orange-500">Lyte</span></span>
         </div>
 
         <button @click="open = !open"
